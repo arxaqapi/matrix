@@ -1,36 +1,37 @@
-use crate::matrix::Matrix;
+use crate::Matrix;
 
-impl  Matrix {
-    pub fn zeros<const R: usize, const C: usize>() -> Self {
+impl Matrix {
+    pub fn zeros(shape: (usize, usize)) -> Self { // <const R: usize, const C: usize>
         Matrix {
-            mem: vec![f32::default(); R * C], // Vec::with_capacity(R * C),
-            shape: (R, C),
+            mem: vec![f32::default(); shape.0 * shape.1],
+            shape: shape,
             stride: (1, 1),
         }
     }
-    pub fn ones<const R: usize, const C: usize>() -> Self {
+    pub fn ones(shape: (usize, usize)) -> Self {
         Matrix {
-            mem: vec![1.; R * C],
-            shape: (R, C),
+            mem: vec![1.; shape.0 * shape.1],
+            shape: shape,
             stride: (1, 1),
         }
     }
     // fill - 
-    pub fn fill<const R: usize, const C: usize>(e: f32) -> Self {
+    pub fn fill(shape: (usize, usize), e: f32) -> Self {
         Matrix {
-            mem: vec![e; R * C],
-            shape: (R, C),
+            mem: vec![e; shape.0 * shape.1],
+            shape: shape,
             stride: (1, 1),
         }
     }
-    pub fn range<const R: usize, const C: usize>() -> Self {
-        let mut range_mem = Vec::<f32>::with_capacity(R * C);
-        for i in 0..(R*C) {
+    pub fn range(shape: (usize, usize)) -> Self {
+        let memsize = shape.0 * shape.1;
+        let mut range_mem = Vec::<f32>::with_capacity(shape.0 * shape.1);
+        for i in 0..(memsize) {
             range_mem.push(i as f32);
         }
         Matrix {
             mem: range_mem,
-            shape: (R, C),
+            shape: shape,
             stride: (1, 1),
         }
     }
@@ -84,10 +85,12 @@ mod tests {
 
     #[test]
     fn test_zeros() {
-        let zeroes = Matrix::zeros::<5, 10>();
+        let zeroes = Matrix::zeros((5, 10));
 
-        for i in 0..50 {
-            assert_eq!(zeroes[i], 0.);
+        for i in 0..5 {
+            for j in 0..10 {
+                assert_eq!(zeroes[(i, j)], 0.);
+            }
         }
         assert_eq!(zeroes.mem.iter().sum::<f32>(), 0.);
         assert_eq!(zeroes.shape, (5, 10));
@@ -95,10 +98,13 @@ mod tests {
 
     #[test]
     fn test_ones() {
-        let ones = Matrix::ones::<1, 10>();
+        let ones = Matrix::ones((1, 10));
 
-        for i in 0..10 {
-            assert_eq!(ones[i], 1.);
+        
+        for i in 0..1 {
+            for j in 0..10 {
+                assert_eq!(ones[(i, j)], 1.);
+            }
         }
         assert_eq!(ones.mem.iter().sum::<f32>(), 10.);
         assert_eq!(ones.shape, (1, 10));
@@ -106,12 +112,14 @@ mod tests {
 
     #[test]
     fn test_range() {
-        let range_mat = Matrix::range::<1, 10>();
+        let range_mat = Matrix::range((1, 10));
         
         let mut b = 0.;
-        for i in 0..10 {
-            assert_eq!(range_mat[i], b);
-            b += 1.;
+        for i in 0..1 {
+            for j in 0..10 {
+                assert_eq!(range_mat[(i, j)], b);
+                b += 1.;
+            }
         }
         assert_eq!(range_mat.mem.iter().sum::<f32>(), 45.);
         assert_eq!(range_mat.shape, (1, 10));
@@ -119,10 +127,12 @@ mod tests {
 
     #[test]
     fn test_range_like() {
-        let ones = Matrix::ones::<1, 10>();
+        let ones = Matrix::ones((1, 10));
 
-        for i in 0..10 {
-            assert_eq!(ones[i], 1.);
+        for i in 0..1 {
+            for j in 0..10 {
+                assert_eq!(ones[(i, j)], 1.);
+            }
         }
         assert_eq!(ones.mem.iter().sum::<f32>(), 10.);
         assert_eq!(ones.shape, (1, 10));
@@ -130,9 +140,12 @@ mod tests {
 
     #[test]
     fn test_fill() {
-        let mat = Matrix::fill::<2, 3>(2.);
-        for i in 0..6 {
-            assert_eq!(mat[i], 2.);
+        let mat = Matrix::fill((2, 3), 2.);
+        
+        for i in 0..2 {
+            for j in 0..3 {
+                assert_eq!(mat[(i, j)], 2.);
+            }
         }
         assert_eq!(mat.mem.iter().sum::<f32>(), 12.);
         assert_eq!(mat.shape, (2, 3));

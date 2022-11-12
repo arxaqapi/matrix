@@ -1,5 +1,5 @@
 use std::ops::{Add, Div, Index, IndexMut, Mul, Neg, Sub};
-use crate::matrix::Matrix;
+use crate::Matrix;
 
 impl Add for Matrix {
     type Output = Self;
@@ -87,16 +87,18 @@ impl Neg for Matrix {
 
 // Access
 // TODO: Compute access using strides and tuple as param
-impl Index<usize> for Matrix {
+impl Index<(usize, usize)> for Matrix {
     type Output = f32;
 
-    fn index(&self, index: usize) -> &Self::Output {
-        &self.mem[index]
+    fn index(&self, index: (usize, usize)) -> &Self::Output {
+        let (nr, nc) = self.shape;
+        &self.mem[index.0 * nc + index.1]
     }
 }
 
-impl IndexMut<usize> for Matrix {
-    fn index_mut(&mut self, index: usize) -> &mut Self::Output {
-        &mut self.mem[index]
+impl IndexMut<(usize, usize)> for Matrix {
+    fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
+        let (nr, nc) = self.shape;
+        &mut self.mem[index.0 * nc + index.1]
     }
 }

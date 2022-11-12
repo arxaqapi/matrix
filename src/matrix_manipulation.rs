@@ -1,4 +1,4 @@
-use crate::matrix::Matrix;
+use crate::Matrix;
 
 impl Matrix {
     pub fn fill_mat(&mut self, value: f32) {

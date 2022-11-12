@@ -1,4 +1,4 @@
-use crate::matrix::Matrix;
+use crate::Matrix;
 
 /// https://numpy.org/doc/stable/reference/routines.linalg.html
 impl Matrix {
@@ -8,7 +8,7 @@ impl Matrix {
     pub fn matmul(x: &Self, y: &Self) -> Self {
         assert_eq!(x.shape.1, y.shape.0);
 
-        Matrix::zeros::<10, 10>()
+        Matrix::zeros((10, 10))
     }
 
     ///

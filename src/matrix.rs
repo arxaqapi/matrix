@@ -1,10 +1,5 @@
+use crate::Matrix;
 use crate::utils::{argmax, argmin};
-
-pub struct Matrix {
-    pub(crate) mem: Vec<f32>,
-    pub(crate) shape: (usize, usize),
-    pub(crate) stride: (usize, usize),
-}
 
 impl Matrix {
     
@@ -35,9 +30,9 @@ mod tests {
 
     #[test]
     fn test_max() {
-        let mut mat = Matrix::fill::<2, 3>(2.);
+        let mut mat = Matrix::fill((2, 3), 2.);
         let value = 87.;
-        mat[4] = value;
+        mat[(1, 2)] = value;
 
         assert_eq!(mat.max(), value);
         assert_eq!(mat.maximum(), value);
@@ -45,9 +40,9 @@ mod tests {
 
     #[test]
     fn test_min() {
-        let mut mat = Matrix::fill::<2, 3>(182.);
+        let mut mat = Matrix::fill((2, 3), 182.);
         let value = 87.;
-        mat[4] = value;
+        mat[(1, 2)] = value;
 
         assert_eq!(mat.min(), value);
         assert_eq!(mat.minimum(), value);
