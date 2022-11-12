@@ -55,10 +55,106 @@ impl Matrix {
 
     //// Sum, prods and differences
     //// https://numpy.org/doc/stable/reference/routines.math.html#sums-products-differences
-    // prod
-    // sum
-    // cumprod
-    // cumsum
+    
+    /// prod: product over the given axis
+    pub fn prod(&self, axis: usize) -> Matrix {
+        assert_eq!(axis < 2, true);
+        match axis {
+            0 => {
+                let mut new = Matrix::ones((1, self.width()));
+
+                for i in 0..self.height() {
+                    for j in 0..self.width() {
+                        new[(0, j)] *= self[(i, j)];
+                    }
+                }
+                new
+            },
+            1 => {
+                let mut new = Matrix::ones((self.height(), 1));
+
+                for i in 0..self.height() {
+                    for j in 0..self.width() {
+                        new[(i, 0)] *= self[(i, j)];
+                    }
+                }
+                new
+            },
+            _ => {
+                panic!("Axis value is not correct")
+            }
+        }
+    }
+
+    /// sum: sum over the given axis
+    pub fn sum(&self, axis: usize) -> Matrix {
+        assert_eq!(axis < 2, true);
+        match axis {
+            0 => {
+                let mut new = Matrix::zeros((1, self.width()));
+
+                for i in 0..self.height() {
+                    for j in 0..self.width() {
+                        new[(0, j)] += self[(i, j)];
+                    }
+                }
+                new
+            },
+            1 => {
+                let mut new = Matrix::zeros((self.height(), 1));
+
+                for i in 0..self.height() {
+                    for j in 0..self.width() {
+                        new[(i, 0)] += self[(i, j)];
+                    }
+                }
+                new
+            },
+            _ => {
+                panic!("Axis value is not correct")
+            }
+        }
+    }
+    /// total_prod: total product of all matrix elements
+    pub fn total_prod(&self) -> f32 {
+        self.mem.iter().fold(1., | b , e | b * e)
+    }
+    /// total_sum: total sum of all matrix elements
+    pub fn total_sum(&self) -> f32 {
+        self.mem.iter().sum()
+    }
+
+    /// total_cumprod: total matrix cumulative product
+    pub fn total_cumprod(&self) -> Self {
+        let mut new = Vec::with_capacity(self.len());
+
+        self.mem.iter().fold(1., |acc, x| {
+            let temp = acc * *x;
+            new.push(temp);
+            temp
+        });
+    
+        Matrix { 
+            mem: new,
+            ..*self
+        }
+    }
+        
+    /// total_cumsum: total matrix cumulative sum
+    pub fn total_cumsum(&self) -> Self {
+        let mut new = Vec::with_capacity(self.len());
+
+        self.mem.iter().fold(0., |acc, x| {
+            let temp = acc + *x;
+            new.push(temp);
+            temp
+        });
+    
+        Matrix { 
+            mem: new,
+            ..*self
+        }
+    }
     // gradient
     // cross
 
@@ -87,4 +183,56 @@ impl Matrix {
     // arccosh
     // arctanh
 
+}
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_prod_axis_0() {
+        let mat = Matrix::range((3, 2));
+        
+        let new = mat.prod(0);
+        assert_eq!(new.shape, (1, 2));
+
+        assert_eq!(new[(0, 0)], 0.);
+        assert_eq!(new[(0, 1)], 15.);
+    }
+
+    #[test]
+    fn test_prod_axis_1() {
+        let mat = Matrix::range((3, 2));
+        
+        let new = mat.prod(1);
+        assert_eq!(new.shape, (3, 1));
+
+        assert_eq!(new[(0, 0)], 0.);
+        assert_eq!(new[(1, 0)], 6.);
+        assert_eq!(new[(2, 0)], 20.);        
+    }
+
+    #[test]
+    fn test_sum_axis_0() {
+        let mat = Matrix::range((3, 2));
+        
+        let new = mat.sum(0);
+        assert_eq!(new.shape, (1, 2));
+
+        assert_eq!(new[(0, 0)], 6.);
+        assert_eq!(new[(0, 1)], 9.);
+    }
+
+    #[test]
+    fn test_sum_axis_1() {
+        let mat = Matrix::range((3, 2));
+        
+        let new = mat.sum(1);
+        assert_eq!(new.shape, (3, 1));
+
+        assert_eq!(new[(0, 0)], 1.);
+        assert_eq!(new[(1, 0)], 5.);
+        assert_eq!(new[(2, 0)], 9.);        
+    }
 }
