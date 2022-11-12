@@ -91,14 +91,14 @@ impl Index<(usize, usize)> for Matrix {
     type Output = f32;
 
     fn index(&self, index: (usize, usize)) -> &Self::Output {
-        let (nr, nc) = self.shape;
-        &self.mem[index.0 * nc + index.1]
+        let (_rows, cols) = self.shape;
+        &self.mem[index.0 * cols + index.1]
     }
 }
 
 impl IndexMut<(usize, usize)> for Matrix {
     fn index_mut(&mut self, index: (usize, usize)) -> &mut Self::Output {
-        let (nr, nc) = self.shape;
-        &mut self.mem[index.0 * nc + index.1]
+        let (_rows, cols) = self.shape;
+        &mut self.mem[index.0 * cols + index.1]
     }
 }

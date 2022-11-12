@@ -4,6 +4,7 @@ pub mod matrix_creation;
 pub mod matrix_manipulation;
 pub mod matrix_math;
 pub mod matrix_linalgebra;
+pub mod matrix_access;
 pub mod utils;
 
 pub struct Matrix {
