@@ -3,11 +3,7 @@ use crate::Matrix;
 /// https://numpy.org/doc/stable/reference/routines.linalg.html
 impl Matrix {
 
-    /// Matrix miltiplication between two matrices
-    /// - https://www.wikiwand.com/en/Matrix%20multiplication
-    pub fn matmul(x: &Self, y: &Self) -> Self {
-        assert_eq!(x.shape.1, y.shape.0);
-
+    fn naive_matmul(x: &Self, y: &Self) -> Self {
         let m = x.shape.0;
         let n = x.shape.1;
         let p = y.shape.1;
@@ -21,6 +17,14 @@ impl Matrix {
             }
         }
         result
+    }
+
+    /// Matrix miltiplication between two matrices
+    /// - https://www.wikiwand.com/en/Matrix%20multiplication
+    pub fn matmul(x: &Self, y: &Self) -> Self {
+        assert_eq!(x.shape.1, y.shape.0);
+
+        Matrix::naive_matmul(x, y)
     }
 
     ///
