@@ -19,6 +19,17 @@ impl Add for Matrix {
     }
 }
 
+impl Add<f32> for Matrix {
+    type Output = Self;
+
+    fn add(self, rhs: f32) -> Self::Output {
+        Matrix {
+            mem: self.mem.iter().map(| e | e + rhs).collect(),
+            ..self
+        }
+    }
+}
+
 impl Sub for Matrix {
     type Output = Self;
 
