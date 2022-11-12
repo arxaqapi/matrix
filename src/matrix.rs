@@ -2,7 +2,11 @@ use crate::Matrix;
 use crate::utils::{argmax, argmin};
 
 impl Matrix {
-    
+    /// total length of the matrix (n° of columns * n° rows)
+    pub fn len(&self) -> usize {
+        self.shape.0 * self.shape.1
+    }
+
     pub fn argmax(&self) -> (usize, f32) {
         argmax(&self.mem)
     }
