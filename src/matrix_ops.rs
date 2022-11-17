@@ -60,8 +60,22 @@ impl Mul for Matrix {
                 .zip(rhs.mem.iter())
                 .map(|(e, rhse)| e * rhse)
                 .collect(),
-            shape: self.shape,
-            stride: self.stride,
+            ..self
+        }
+    }
+}
+
+impl Mul<f32> for Matrix {
+    type Output = Self;
+
+    fn mul(self, rhs: f32) -> Self::Output {
+        Matrix {
+            mem: self
+                .mem
+                .iter()
+                .map(| e | e * rhs )
+                .collect(),
+            ..self
         }
     }
 }
@@ -77,6 +91,22 @@ impl Div for Matrix {
                 .iter()
                 .zip(rhs.mem.iter())
                 .map(|(e, rhse)| e * rhse)
+                .collect(),
+            shape: self.shape,
+            stride: self.stride,
+        }
+    }
+}
+
+impl Div<f32> for Matrix {
+    type Output = Self;
+
+    fn div(self, rhs: f32) -> Self::Output {
+        Matrix {
+            mem: self
+                .mem
+                .iter()
+                .map(| e | e / rhs )
                 .collect(),
             shape: self.shape,
             stride: self.stride,
