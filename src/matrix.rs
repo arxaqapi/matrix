@@ -6,6 +6,10 @@ impl Matrix {
     pub fn len(&self) -> usize {
         self.shape.0 * self.shape.1
     }
+    pub fn get_shape(&self) -> (usize, usize) {
+        self.shape
+    }
+
 
     pub fn argmax(&self) -> (usize, f32) {
         argmax(&self.mem)
