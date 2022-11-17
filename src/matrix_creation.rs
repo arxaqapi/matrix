@@ -35,6 +35,16 @@ impl Matrix {
             stride: (1, 1),
         }
     }
+    pub fn from(values: &[f32]) -> Matrix {
+        Matrix {
+            mem: values.to_vec(),
+            shape: (values.len(), 1),
+            stride: (0, 0)
+        }
+    }
+
+    //// Like:
+
     /// Create a matrix of the same shape as the matrix passed as parameter
     pub fn zeros_like(m: &Self) -> Self {
         Matrix {
@@ -149,5 +159,17 @@ mod tests {
         }
         assert_eq!(mat.mem.iter().sum::<f32>(), 12.);
         assert_eq!(mat.shape, (2, 3));
+    }
+    
+    #[test]
+    fn test_from() {
+        let mat = Matrix::from(&[1., 2., 5.]);
+
+        assert_eq!(mat.shape, (3, 1));
+        assert_eq!(mat.mem.len(), 3);
+        assert_eq!(mat[(0, 0)], 1.);
+        assert_eq!(mat[(1, 0)], 2.);
+        assert_eq!(mat[(2, 0)], 5.);
+
     }
 }
