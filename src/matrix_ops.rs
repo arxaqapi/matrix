@@ -48,8 +48,8 @@ impl Sub for &Matrix {
     }
 }
 
-impl Mul for Matrix {
-    type Output = Self;
+impl Mul for &Matrix {
+    type Output = Matrix;
 
     fn mul(self, rhs: Self) -> Self::Output {
         assert_eq!(self.shape, rhs.shape, "The shapes do not match");
@@ -60,13 +60,13 @@ impl Mul for Matrix {
                 .zip(rhs.mem.iter())
                 .map(|(e, rhse)| e * rhse)
                 .collect(),
-            ..self
+            ..*self
         }
     }
 }
 
-impl Mul<f32> for Matrix {
-    type Output = Self;
+impl Mul<f32> for &Matrix {
+    type Output = Matrix;
 
     fn mul(self, rhs: f32) -> Self::Output {
         Matrix {
@@ -75,7 +75,7 @@ impl Mul<f32> for Matrix {
                 .iter()
                 .map(| e | e * rhs )
                 .collect(),
-            ..self
+            ..*self
         }
     }
 }
@@ -176,7 +176,21 @@ mod tests {
         // mat1 has only been borrowed and is therefor still accessible after add
         let _s = mat1.get_shape();
         let _s2 = mat1.get_shape();
+    }
+    #[test]
+    fn test_mul() {
+        let mat1 = &Matrix::ones((10, 23)) + &Matrix::ones((10, 23)); 
+        let mat2 = mat1.clone(); 
 
+        let res = &mat1 * &mat2;
+        for i in 0..res.height() {
+            for j in 0..res.width() {
+                assert_eq!(res[(i, j)], 4.);
+            }
+        }
+        // mat1 has only been borrowed and is therefor still accessible after add
+        let _s = mat1.get_shape();
+        let _s2 = mat1.get_shape();
     }
 
 }
