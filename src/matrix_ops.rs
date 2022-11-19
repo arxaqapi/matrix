@@ -1,10 +1,10 @@
 use std::ops::{Add, Div, Index, IndexMut, Mul, Neg, Sub};
 use crate::Matrix;
 
-impl Add for Matrix {
-    type Output = Self;
+impl Add for &Matrix {
+    type Output = Matrix;
 
-    fn add(self, rhs: Self) -> Self::Output {
+    fn add(self, rhs: &Matrix) -> Self::Output {
         assert_eq!(self.shape, rhs.shape, "The shapes do not match");
         Matrix {
             mem: self
@@ -19,13 +19,13 @@ impl Add for Matrix {
     }
 }
 
-impl Add<f32> for Matrix {
-    type Output = Self;
+impl Add<f32> for &Matrix {
+    type Output = Matrix;
 
     fn add(self, rhs: f32) -> Self::Output {
         Matrix {
             mem: self.mem.iter().map(| e | e + rhs).collect(),
-            ..self
+            ..*self
         }
     }
 }
@@ -152,11 +152,13 @@ mod tests {
     fn test_add() {
         let mat1 = Matrix::ones((10, 23)); 
         let mat2 = Matrix::ones((10, 23)); 
-        let res = mat1 + mat2;
+        let res = &mat1 + &mat2;
         for i in 0..res.height() {
             for j in 0..res.width() {
                 assert_eq!(res[(i, j)], 2.);
             }
         }
+        // mat1 has only been borrowed and is therefor still accessible after add
+        let _s = mat1.get_shape();
     }
 }
