@@ -143,3 +143,20 @@ impl IndexMut<(usize, usize)> for Matrix {
         &mut self.mem[index.0 * cols + index.1]
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_add() {
+        let mat1 = Matrix::ones((10, 23)); 
+        let mat2 = Matrix::ones((10, 23)); 
+        let res = mat1 + mat2;
+        for i in 0..res.height() {
+            for j in 0..res.width() {
+                assert_eq!(res[(i, j)], 2.);
+            }
+        }
+    }
+}
