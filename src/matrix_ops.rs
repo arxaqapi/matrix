@@ -80,8 +80,8 @@ impl Mul<f32> for &Matrix {
     }
 }
 
-impl Div for Matrix {
-    type Output = Self;
+impl Div for &Matrix {
+    type Output = Matrix;
 
     fn div(self, rhs: Self) -> Self::Output {
         assert_eq!(self.shape, rhs.shape, "The shapes do not match");
@@ -92,14 +92,13 @@ impl Div for Matrix {
                 .zip(rhs.mem.iter())
                 .map(|(e, rhse)| e * rhse)
                 .collect(),
-            shape: self.shape,
-            stride: self.stride,
+            ..*self
         }
     }
 }
 
-impl Div<f32> for Matrix {
-    type Output = Self;
+impl Div<f32> for &Matrix {
+    type Output = Matrix;
 
     fn div(self, rhs: f32) -> Self::Output {
         Matrix {
@@ -108,20 +107,18 @@ impl Div<f32> for Matrix {
                 .iter()
                 .map(| e | e / rhs )
                 .collect(),
-            shape: self.shape,
-            stride: self.stride,
+                ..*self
         }
     }
 }
 
-impl Neg for Matrix {
-    type Output = Self;
+impl Neg for &Matrix {
+    type Output = Matrix;
 
     fn neg(self) -> Self::Output {
         Matrix {
             mem: self.mem.iter().map(|e| -e).collect(),
-            shape: self.shape,
-            stride: self.stride,
+            ..*self
         }
     }
 }
