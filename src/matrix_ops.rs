@@ -30,8 +30,8 @@ impl Add<f32> for &Matrix {
     }
 }
 
-impl Sub for Matrix {
-    type Output = Self;
+impl Sub for &Matrix {
+    type Output = Matrix;
 
     fn sub(self, rhs: Self) -> Self::Output {
         assert_eq!(self.shape, rhs.shape, "The shapes do not match");
@@ -160,5 +160,23 @@ mod tests {
         }
         // mat1 has only been borrowed and is therefor still accessible after add
         let _s = mat1.get_shape();
+        let _s2 = mat1.get_shape();
+
     }
+    #[test]
+    fn test_sub() {
+        let mat1 = Matrix::ones((10, 23)); 
+        let mat2 = Matrix::ones((10, 23)); 
+        let res = &mat1 - &mat2;
+        for i in 0..res.height() {
+            for j in 0..res.width() {
+                assert_eq!(res[(i, j)], 0.);
+            }
+        }
+        // mat1 has only been borrowed and is therefor still accessible after add
+        let _s = mat1.get_shape();
+        let _s2 = mat1.get_shape();
+
+    }
+
 }
