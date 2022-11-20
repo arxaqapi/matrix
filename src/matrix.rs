@@ -1,5 +1,5 @@
-use crate::Matrix;
 use crate::utils::{argmax, argmin};
+use crate::Matrix;
 
 impl Matrix {
     /// total length of the matrix (n° of columns * n° rows)
@@ -9,7 +9,6 @@ impl Matrix {
     pub fn get_shape(&self) -> (usize, usize) {
         self.shape
     }
-
 
     pub fn argmax(&self) -> (usize, f32) {
         argmax(&self.mem)
@@ -25,11 +24,11 @@ impl Matrix {
     }
     pub fn min(&self) -> f32 {
         argmin(&self.mem).1
-    }pub fn minimum(&self) -> f32 {
+    }
+    pub fn minimum(&self) -> f32 {
         argmin(&self.mem).1
     }
 }
-
 
 /// Test suite
 #[cfg(test)]

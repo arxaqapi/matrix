@@ -1,7 +1,6 @@
 use crate::Matrix;
 
 impl Matrix {
-    
     //// Operators
     /// exp: natural exponential, inverso of nat log
     pub fn exp(&self) -> Self {
@@ -55,7 +54,7 @@ impl Matrix {
 
     //// Sum, prods and differences
     //// https://numpy.org/doc/stable/reference/routines.math.html#sums-products-differences
-    
+
     /// prod: product over the given axis
     pub fn prod(&self, axis: usize) -> Matrix {
         assert_eq!(axis < 2, true);
@@ -69,7 +68,7 @@ impl Matrix {
                     }
                 }
                 new
-            },
+            }
             1 => {
                 let mut new = Matrix::ones((self.height(), 1));
 
@@ -79,7 +78,7 @@ impl Matrix {
                     }
                 }
                 new
-            },
+            }
             _ => {
                 panic!("Axis value is not correct")
             }
@@ -99,7 +98,7 @@ impl Matrix {
                     }
                 }
                 new
-            },
+            }
             1 => {
                 let mut new = Matrix::zeros((self.height(), 1));
 
@@ -109,7 +108,7 @@ impl Matrix {
                     }
                 }
                 new
-            },
+            }
             _ => {
                 panic!("Axis value is not correct")
             }
@@ -117,7 +116,7 @@ impl Matrix {
     }
     /// total_prod: total product of all matrix elements
     pub fn total_prod(&self) -> f32 {
-        self.mem.iter().fold(1., | b , e | b * e)
+        self.mem.iter().fold(1., |b, e| b * e)
     }
     /// total_sum: total sum of all matrix elements
     pub fn total_sum(&self) -> f32 {
@@ -133,13 +132,10 @@ impl Matrix {
             new.push(temp);
             temp
         });
-    
-        Matrix { 
-            mem: new,
-            ..*self
-        }
+
+        Matrix { mem: new, ..*self }
     }
-        
+
     /// total_cumsum: total matrix cumulative sum
     pub fn total_cumsum(&self) -> Self {
         let mut new = Vec::with_capacity(self.len());
@@ -149,11 +145,8 @@ impl Matrix {
             new.push(temp);
             temp
         });
-    
-        Matrix { 
-            mem: new,
-            ..*self
-        }
+
+        Matrix { mem: new, ..*self }
     }
     // gradient
     // cross
@@ -182,9 +175,7 @@ impl Matrix {
     // arcsinh
     // arccosh
     // arctanh
-
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -193,7 +184,7 @@ mod tests {
     #[test]
     fn test_prod_axis_0() {
         let mat = Matrix::range((3, 2));
-        
+
         let new = mat.prod(0);
         assert_eq!(new.shape, (1, 2));
 
@@ -204,19 +195,19 @@ mod tests {
     #[test]
     fn test_prod_axis_1() {
         let mat = Matrix::range((3, 2));
-        
+
         let new = mat.prod(1);
         assert_eq!(new.shape, (3, 1));
 
         assert_eq!(new[(0, 0)], 0.);
         assert_eq!(new[(1, 0)], 6.);
-        assert_eq!(new[(2, 0)], 20.);        
+        assert_eq!(new[(2, 0)], 20.);
     }
 
     #[test]
     fn test_sum_axis_0() {
         let mat = Matrix::range((3, 2));
-        
+
         let new = mat.sum(0);
         assert_eq!(new.shape, (1, 2));
 
@@ -227,12 +218,12 @@ mod tests {
     #[test]
     fn test_sum_axis_1() {
         let mat = Matrix::range((3, 2));
-        
+
         let new = mat.sum(1);
         assert_eq!(new.shape, (3, 1));
 
         assert_eq!(new[(0, 0)], 1.);
         assert_eq!(new[(1, 0)], 5.);
-        assert_eq!(new[(2, 0)], 9.);        
+        assert_eq!(new[(2, 0)], 9.);
     }
 }

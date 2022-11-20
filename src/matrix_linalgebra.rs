@@ -2,12 +2,11 @@ use crate::Matrix;
 
 /// https://numpy.org/doc/stable/reference/routines.linalg.html
 impl Matrix {
-
     fn naive_matmul(x: &Self, y: &Self) -> Self {
         let m = x.shape.0;
         let n = x.shape.1;
         let p = y.shape.1;
-        
+
         let mut result = Matrix::zeros((m, p));
         for i in 0..m {
             for j in 0..p {
@@ -59,7 +58,7 @@ mod tests {
         b[(2, 0)] = 4.;
         b[(2, 1)] = 2.;
         b[(2, 2)] = 2.;
-        
+
         assert_eq!(a.shape.1, b.shape.0);
         let res = Matrix::matmul(&a, &b);
 
@@ -80,7 +79,7 @@ mod tests {
         assert_eq!(res[(3, 1)], 9.);
         assert_eq!(res[(3, 2)], 6.);
     }
-    
+
     #[test]
     fn test_matmul_medium() {
         let m1 = Matrix::ones((2, 7));

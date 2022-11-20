@@ -1,5 +1,5 @@
-use std::ops::{Add, Div, Index, IndexMut, Mul, Neg, Sub};
 use crate::Matrix;
+use std::ops::{Add, Div, Index, IndexMut, Mul, Neg, Sub};
 
 impl Add for &Matrix {
     type Output = Matrix;
@@ -24,7 +24,7 @@ impl Add<f32> for &Matrix {
 
     fn add(self, rhs: f32) -> Self::Output {
         Matrix {
-            mem: self.mem.iter().map(| e | e + rhs).collect(),
+            mem: self.mem.iter().map(|e| e + rhs).collect(),
             ..*self
         }
     }
@@ -70,11 +70,7 @@ impl Mul<f32> for &Matrix {
 
     fn mul(self, rhs: f32) -> Self::Output {
         Matrix {
-            mem: self
-                .mem
-                .iter()
-                .map(| e | e * rhs )
-                .collect(),
+            mem: self.mem.iter().map(|e| e * rhs).collect(),
             ..*self
         }
     }
@@ -102,12 +98,8 @@ impl Div<f32> for &Matrix {
 
     fn div(self, rhs: f32) -> Self::Output {
         Matrix {
-            mem: self
-                .mem
-                .iter()
-                .map(| e | e / rhs )
-                .collect(),
-                ..*self
+            mem: self.mem.iter().map(|e| e / rhs).collect(),
+            ..*self
         }
     }
 }
@@ -147,8 +139,8 @@ mod tests {
 
     #[test]
     fn test_add() {
-        let mat1 = Matrix::ones((10, 23)); 
-        let mat2 = Matrix::ones((10, 23)); 
+        let mat1 = Matrix::ones((10, 23));
+        let mat2 = Matrix::ones((10, 23));
         let res = &mat1 + &mat2;
         for i in 0..res.height() {
             for j in 0..res.width() {
@@ -158,12 +150,11 @@ mod tests {
         // mat1 has only been borrowed and is therefor still accessible after add
         let _s = mat1.get_shape();
         let _s2 = mat1.get_shape();
-
     }
     #[test]
     fn test_sub() {
-        let mat1 = Matrix::ones((10, 23)); 
-        let mat2 = Matrix::ones((10, 23)); 
+        let mat1 = Matrix::ones((10, 23));
+        let mat2 = Matrix::ones((10, 23));
         let res = &mat1 - &mat2;
         for i in 0..res.height() {
             for j in 0..res.width() {
@@ -176,8 +167,8 @@ mod tests {
     }
     #[test]
     fn test_mul() {
-        let mat1 = &Matrix::ones((10, 23)) + &Matrix::ones((10, 23)); 
-        let mat2 = mat1.clone(); 
+        let mat1 = &Matrix::ones((10, 23)) + &Matrix::ones((10, 23));
+        let mat2 = mat1.clone();
 
         let res = &mat1 * &mat2;
         for i in 0..res.height() {
@@ -189,5 +180,4 @@ mod tests {
         let _s = mat1.get_shape();
         let _s2 = mat1.get_shape();
     }
-
 }

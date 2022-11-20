@@ -17,7 +17,7 @@ impl Matrix {
         assert_eq!(self.shape.1, new.shape.0);
         for i in 0..self.height() {
             for j in 0..self.width() {
-                new[(j ,i)] = self[(i, j)];
+                new[(j, i)] = self[(i, j)];
             }
         }
 

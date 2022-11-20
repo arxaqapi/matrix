@@ -1,5 +1,3 @@
-
-
 /// https://docs.rs/rulinalg/0.3.0/src/rulinalg/.cargo/registry/src/github.com-1ecc6299db9ec823/rulinalg-0.3.0/src/utils.rs.html#243-257
 pub(crate) fn argmax<T: Copy + PartialOrd>(u: &[T]) -> (usize, T) {
     assert!(u.len() != 0);
