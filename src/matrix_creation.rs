@@ -5,14 +5,12 @@ impl Matrix {
         Matrix {
             mem: vec![f32::default(); shape.0 * shape.1],
             shape: shape,
-            stride: (1, 1),
         }
     }
     pub fn ones(shape: (usize, usize)) -> Self {
         Matrix {
             mem: vec![1.; shape.0 * shape.1],
             shape: shape,
-            stride: (1, 1),
         }
     }
     // fill -
@@ -20,7 +18,6 @@ impl Matrix {
         Matrix {
             mem: vec![e; shape.0 * shape.1],
             shape: shape,
-            stride: (1, 1),
         }
     }
     pub fn range(shape: (usize, usize)) -> Self {
@@ -32,14 +29,12 @@ impl Matrix {
         Matrix {
             mem: range_mem,
             shape: shape,
-            stride: (1, 1),
         }
     }
     pub fn from(values: &[f32]) -> Matrix {
         Matrix {
             mem: values.to_vec(),
             shape: (values.len(), 1),
-            stride: (0, 0),
         }
     }
 

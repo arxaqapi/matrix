@@ -13,8 +13,7 @@ impl Add for &Matrix {
                 .zip(rhs.mem.iter())
                 .map(|(e, rhse)| e + rhse)
                 .collect(),
-            shape: self.shape,
-            stride: self.stride,
+            ..*self
         }
     }
 }
@@ -42,8 +41,7 @@ impl Sub for &Matrix {
                 .zip(rhs.mem.iter())
                 .map(|(e, rhse)| e - rhse)
                 .collect(),
-            shape: self.shape,
-            stride: self.stride,
+            ..*self
         }
     }
 }
