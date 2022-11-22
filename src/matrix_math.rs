@@ -44,7 +44,7 @@ impl Matrix {
             ..*self
         }
     }
-    /// logn
+    /// logn: log of base: base
     pub fn logn(&self, base: f32) -> Self {
         Matrix {
             mem: self.mem.iter().map(|e| e.log(base)).collect(),
@@ -114,17 +114,17 @@ impl Matrix {
             }
         }
     }
-    /// total_prod: total product of all matrix elements
-    pub fn total_prod(&self) -> f32 {
+    /// prod_total: total product of all matrix elements
+    pub fn prod_total(&self) -> f32 {
         self.mem.iter().fold(1., |b, e| b * e)
     }
-    /// total_sum: total sum of all matrix elements
-    pub fn total_sum(&self) -> f32 {
+    /// sum_total: total sum of all matrix elements
+    pub fn sum_total(&self) -> f32 {
         self.mem.iter().sum()
     }
 
-    /// total_cumprod: total matrix cumulative product
-    pub fn total_cumprod(&self) -> Self {
+    /// cumprod_total: total matrix cumulative product
+    pub fn cumprod_total(&self) -> Self {
         let mut new = Vec::with_capacity(self.len());
 
         self.mem.iter().fold(1., |acc, x| {
@@ -136,8 +136,8 @@ impl Matrix {
         Matrix { mem: new, ..*self }
     }
 
-    /// total_cumsum: total matrix cumulative sum
-    pub fn total_cumsum(&self) -> Self {
+    /// cumsum_total: total matrix cumulative sum
+    pub fn cumsum_total(&self) -> Self {
         let mut new = Vec::with_capacity(self.len());
 
         self.mem.iter().fold(0., |acc, x| {
